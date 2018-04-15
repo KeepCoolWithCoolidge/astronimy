@@ -5,16 +5,19 @@ import time
 import planet
 
 const
+  
   NorthPolEqCoordsJ1950* = coords.EqPoint(
     asc: 317.342.degToRad(),
     dec: 52.7110.degToRad()
-  )
+  ) ## The equatorial coordinates of Mars's north pole for the epoch J1950.0
   NorthPolEqCoordsJ2000* = coords.EqPoint(
     asc: 317.681.degToRad(),
     dec: 52.8860.degToRad()
-  )
-
+  ) ## The equatorial coordinates of Mars' north pole for the epoch J2000.0
+  
 proc northPolEclCoords*(JC: float64): coords.EclPoint =
+  ## Computes the ecliptic coordinates of Mars' north pole, referred to
+  ## the mean equinox of the date
   coords.EclPoint(
     long: (352.9065 + 1.17330 * JC).degToRad(),
     lat:  (63.28180 - 0.00394 * JC).degToRad()
@@ -22,6 +25,7 @@ proc northPolEclCoords*(JC: float64): coords.EclPoint =
 
 type
   Ephemeris* = object
+    ## Holds Mars' ephemeris values for physical observations
     De*: float64
     Ds*: float64
     P*: float64
@@ -36,6 +40,8 @@ proc ephemeris*(
   nutInLong: float64,
   nutInOblq: float64
 ): Ephemeris =
+  ## Computes quantites used in the ephemeris for physical observations of
+  ## Mars
   var (lambda0, beta0) = (northPoleEclCoords.long, northPoleEclCoords.lat)
 
   let (l0, b0, R) = planet.heliocentCoords(planet.Planet.Earth, JD)

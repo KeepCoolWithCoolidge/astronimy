@@ -4,15 +4,15 @@ import math
 import time
 
 const
-  FlatFac* = 1.0 / 298.257223563
-  EqRad* = 6378.137
-  PolRad* = EqRad * (1.0 * FlatFac)
-  EccOfMeridian* = (FlatFac * (2.0 - FlatFac)).sqrt()
-  RotAngularVelocity* = 0.00007292114992
+  FlatFac* = 1.0 / 298.257223563 ## Flattening factor of the Earth
+  EqRad* = 6378.137 ## Equatorial radius of the Earth in kilometers
+  PolRad* = EqRad * (1.0 - FlatFac) ## Polar radius of Earth in kilometers
+  EccOfMeridian* = (FlatFac * (2.0 - FlatFac)).sqrt() ## Eccentricity of the Earth's meridian
+  RotAngularVelocity* = 0.00007292114992 ## Rotational angular velocity of the Earth in radians per second
 
 proc approxGeodesicDist*(p1, p2: coords.GeographPoint): float64 {.inline.} =
   ## Computes a low accuracy geodesic distance between two points
-  ## on the Earth's surface in kilometer*
+  ## on the Earth's surface in kilometers
   6371.0 * p1.anglrSepr(p2)
 
 proc geodesicDist*(
@@ -53,29 +53,29 @@ proc rhoSinCosPhi*(geographLat, height: float64): tuple[rhoSinPhi, rhoCosPhi: fl
 
 proc rho*(geographLat: float64): float64 =
   ## Computes the distance from the Earth's center to a point on the
-  ## ellipsoid
+  ## ellipsoid in kilometers
   0.9983271 +
     0.0016764 * (2.0 * geographLat).cos() -
     0.0000035 * (4.0 * geographLat).cos()
 
 proc radOfParllLat*(geographLat: float64): float64 =
-  ## Computes the radius of the parallel of a latitude
+  ## Computes the radius of the parallel of a latitude in kilometers
   EqRad * geographLat.cos() /
     (1.0 - (EccOfMeridian * geographLat.sin()).pow(2)).sqrt()
 
 proc linearVelocityAtLat*(geographLat: float64): float64 {.inline.} =
-  ## Computes the linear velocity of a point at a latitude
+  ## Computes the linear velocity of a point at a latitude in kilometers per second
   RotAngularVelocity * radOfParllLat(geographLat)
 
 proc radCurvOfMeridian*(lat: float64): float64 =
   ## Computes the radius of curvature of the Earth's meridian
-  ## at a latitude
+  ## at a latitude in kilometers
   EqRad * (1.0 - EccOfMeridian * EccOfMeridian) /
     (1.0 - (EccOfMeridian * lat.sin()).pow(2)).pow(1.5)
 
 proc geographGeocentLatDiff*(geographLat: float64): float64 =
   ## Computes the difference between the geographic latitude and
-  ## geocentric latitude
+  ## geocentric latitude in radians
   angle.degFrmDMS(0, 0, 692.73) * (2.0 * geographLat).sin() -
     angle.degFrmDMS(0, 0, 1.16) * (4.0 * geographLat).sin()
 

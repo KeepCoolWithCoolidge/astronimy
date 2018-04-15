@@ -325,15 +325,14 @@ proc apprntMag84*(
   of Venus:
     x - 4.40 + i*(0.0009 + i*(0.000239 - i*0.00000065))
   of Earth:
-    #TODO: raise error
-    0
+    raise newException(IOError, "Planet.Earth was passed to procedure planet.apprntMag84().")
   of Mars:
     x - 1.52 + i*0.016
   of Jupiter:
     x - 9.4 + i*0.005
   of Saturn:
-    #TODO: raise error
-    0
+    raise newException(IOError, "Planet.Saturn was passed to procedure planet.apprntMag84. " & 
+      "Use the function planet.saturn.apprntMag84() instead.")
   of Uranus:
     x - 7.19
   of Neptune:
