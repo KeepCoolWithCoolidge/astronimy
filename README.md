@@ -1,2 +1,2 @@
-# astronomy
+# astronim
 Astronomical algorithms in nim
