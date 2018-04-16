@@ -57,8 +57,7 @@ proc semidiameter*(
             #TODO: add saturn type procedure
             0
           of Earth:
-            #Add raise error
-            0
+            raise newException(IOError, "Planet.Earth was passed to the procedure planet.semidiameter().")
   s / planetEarthDist
 
 proc orbElements*(planet: Planet, JD: float64): tuple[L, a, e, i, omega, pi, M, w: float64] =

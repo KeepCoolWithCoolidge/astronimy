@@ -2,10 +2,9 @@ import angle
 import coords
 import math
 import time
-import planet
+from planet import Planet
 
 const
-  
   NorthPolEqCoordsJ1950* = coords.EqPoint(
     asc: 317.342.degToRad(),
     dec: 52.7110.degToRad()
