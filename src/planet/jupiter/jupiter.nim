@@ -4,6 +4,8 @@ import math
 import time
 import planet
 import nutation
+import jupiter_moons
+export jupiter_moons
 
 proc eqSemidiameter*(jupEarthDist: float64): float64 {.inline.} =
   ## Computes Jupiter's equatorial semidiameter
